@@ -13,7 +13,7 @@ const Header = () => {
       <Toolbar className={toolbar}>
         <DriveEtaIcon className={icon} />
         <Typography className={title} variant="h3">
-          Car Renting
+          Cars Renting
         </Typography>
         <Button
           className={button}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -17,10 +17,34 @@ const youpSchema = Yup.object({
     .required("Required !")
 });
 
+const API_ADDRESS = "http://localhost:4000/server/";
+
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form } = useStyles();
 
-  const [formData, setFormData] = useState();
+  const [loginResponse, setLoginResponse] = useState({});
+
+  function login(loginData)
+  {   
+      let formDataPost = new FormData();
+      formDataPost.append('username', loginData['login']);
+      formDataPost.append('password', loginData['password']);
+
+      fetch(API_ADDRESS + "login.php", {
+        method: "POST",
+        body: formDataPost
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        setLoginResponse({
+          loggedIn: data['loggedIn'],
+          message: data['message']
+        })
+      })
+      .then(() => {
+        fetch(API_ADDRESS + "fetch_cars_data.php")
+      })
+  }
 
   return (
     <Grid container className={root} component="main">
@@ -39,22 +63,20 @@ const LoginTemplate = () => {
               password: ""
             }}
             validationSchema={youpSchema}
-            onSubmit={values => {
-              setFormData(values);
+            onSubmit={loginData => {
+              login(loginData);
             }}
           >
             <Form className={form}>
               <MyTextInput
-                label="login"
+                label="Login"
                 name="login"
                 type="text"
-                placeholder="Mlekoslaw@interia.pl"
               />
               <MyTextInput
-                label="password"
+                label="Password"
                 name="password"
                 type="password"
-                placeholder="write a password"
               />
               <Button
                 style={{ marginTop: "2em" }}
