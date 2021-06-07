@@ -47,7 +47,7 @@ const Header = () => {
             }
             className={button}
             component={Link}
-            to="/login"
+            to="/"
             variant="outlined"
             color="inherit"
           >

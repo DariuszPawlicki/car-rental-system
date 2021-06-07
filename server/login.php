@@ -10,7 +10,7 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
-        $response = ['loggedIn' => false, 'message' => ''];
+        $response = ['loggedIn' => false, 'message' => '', 'username' => ''];
 
         if($pdo)
         {
@@ -28,6 +28,7 @@
 
                 $response['loggedIn'] = true;
                 $response['message'] = 'Logged in';
+                $response['username'] = $user['username'];
             }
             else
             {
