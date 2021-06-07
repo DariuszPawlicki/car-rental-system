@@ -5,9 +5,8 @@
 
     header("Access-Control-Allow-Origin: *");
 
-    $query = "SELECT * FROM available_cars";
-    $results = pg_query($conn, $query);
-    $cars_data = pg_fetch_all($results);
+    $stmt = $pdo->query("SELECT * FROM cars");
+    $cars_data = $stmt->fetchAll();
 
-    print_r($_SESSION['username']);
+    echo(json_encode($cars_data));
 ?>

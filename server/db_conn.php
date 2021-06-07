@@ -3,6 +3,7 @@
     $db_name = "d2g6vigfe6tvnl";
     $db_user = "cglbtehhvhsyyg";
     $db_password = "a2d275a109172f52ef144f4e861c70d40c2936bca69e5245d1d5911204e600f2";
-
-    $conn = pg_connect("host=${db_host} dbname=${db_name} user=${db_user} password=${db_password}");
+ 
+    $dsn = "pgsql:host=${db_host};dbname=${db_name}";
+    $pdo = new PDO($dsn, $db_user, $db_password);
 ?>

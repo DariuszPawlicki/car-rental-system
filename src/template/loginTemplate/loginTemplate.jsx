@@ -17,7 +17,7 @@ const youpSchema = Yup.object({
     .required("Required !")
 });
 
-const API_ADDRESS = "http://localhost:4000/server/";
+const API_URL = "https://cars-renting-server.herokuapp.com/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form } = useStyles();
@@ -30,8 +30,9 @@ const LoginTemplate = () => {
       formDataPost.append('username', loginData['login']);
       formDataPost.append('password', loginData['password']);
 
-      fetch(API_ADDRESS + "login.php", {
+      fetch(API_URL + "login.php", {
         method: "POST",
+        credentials: "include",
         body: formDataPost
       })
       .then((response) => response.json())
@@ -40,9 +41,6 @@ const LoginTemplate = () => {
           loggedIn: data['loggedIn'],
           message: data['message']
         })
-      })
-      .then(() => {
-        fetch(API_ADDRESS + "fetch_cars_data.php")
       })
   }
 

@@ -1,37 +1,44 @@
 <?php
     session_start();
+    
+    include "db_conn.php"; 
+    
+    $request_origin = 'http://localhost:3000';
 
-    include "db_conn.php";  
-
-    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: ${request_origin}");
+    header("Access-Control-Allow-Credentials: true");
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
-        $response = array('loggedIn' => false, 'message' => '');
+        $response = ['loggedIn' => false, 'message' => ''];
 
-        if($conn)
+        if($pdo)
         {
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            $query = "SELECT * FROM users WHERE username='${username}' AND password='${password}'";
-            $result = pg_query($conn, $query);
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE username=:username AND password=:password");
+            $stmt->execute(['username' => $username, 'password' => $password]);
 
-            if(pg_num_rows($result) === 1)
+            if($stmt->rowCount() === 1)
             {
-                $user = pg_fetch_assoc($result);
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 $_SESSION['username'] = $user['username'];
-                $_SESSION['user_id'] = $user['user_id'];
 
                 $response['loggedIn'] = true;
                 $response['message'] = 'Logged in';
             }
             else
+            {
                 $response['message'] = 'Username or password is incorrect';
+            }
+                
         }
         else
+        {
             $response['message'] = 'Cannot connect to database';
+        }           
         
         echo(json_encode($response));
     }   
