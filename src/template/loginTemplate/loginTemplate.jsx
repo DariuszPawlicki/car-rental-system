@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
+
+import { RentalCarContext } from "../../context/context";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -20,28 +22,27 @@ const youpSchema = Yup.object({
 const API_URL = "https://cars-renting-server.herokuapp.com/";
 
 const LoginTemplate = () => {
-  const { root, image, paper, avatar, form } = useStyles();
+  const { root, image, paper, avatar, form, error } = useStyles();
 
-  const [loginResponse, setLoginResponse] = useState({});
+  const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
 
-  function login(loginData)
-  {   
-      let formDataPost = new FormData();
-      formDataPost.append('username', loginData['login']);
-      formDataPost.append('password', loginData['password']);
+  function login(loginData) {
+    let formDataPost = new FormData();
+    formDataPost.append("username", loginData["login"]);
+    formDataPost.append("password", loginData["password"]);
 
-      fetch(API_URL + "login.php", {
-        method: "POST",
-        credentials: "include",
-        body: formDataPost
-      })
-      .then((response) => response.json())
-      .then((data) => {
+    fetch(`${API_URL}login.php`, {
+      method: "POST",
+      credentials: "include",
+      body: formDataPost
+    })
+      .then(response => response.json())
+      .then(data => {
         setLoginResponse({
-          loggedIn: data['loggedIn'],
-          message: data['message']
-        })
-      })
+          loggedIn: data["loggedIn"],
+          message: data["message"]
+        });
+      });
   }
 
   return (
@@ -63,19 +64,13 @@ const LoginTemplate = () => {
             validationSchema={youpSchema}
             onSubmit={loginData => {
               login(loginData);
+              loginData.login = "";
+              loginData.password = "";
             }}
           >
             <Form className={form}>
-              <MyTextInput
-                label="Login"
-                name="login"
-                type="text"
-              />
-              <MyTextInput
-                label="Password"
-                name="password"
-                type="password"
-              />
+              <MyTextInput label="Login" name="login" type="text" />
+              <MyTextInput label="Password" name="password" type="password" />
               <Button
                 style={{ marginTop: "2em" }}
                 variant="contained"
@@ -95,6 +90,16 @@ const LoginTemplate = () => {
               >
                 Back
               </Button>
+              {loginResponse.loggedIn === false && (
+                <Typography
+                  className={error}
+                  style={{ marginTop: "1rem" }}
+                  align="center"
+                  variant="h5"
+                >
+                  {loginResponse.message}
+                </Typography>
+              )}
             </Form>
           </Formik>
         </div>

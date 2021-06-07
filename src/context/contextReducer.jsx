@@ -5,25 +5,10 @@ import {
 } from "./actionsType";
 
 export const contextReducer = (state, { type, payload }) => {
+  console.log(payload);
   switch (type) {
     case ADD_RESERVATION:
-      let alert = false;
-      const currentState = state.rentalState.map(item => {
-        if (
-          item.carModel === payload.carModel &&
-          (item.dateRental === payload.dateRental ||
-            item.dateEndRental === payload.dateEndRental)
-        ) {
-          alert = true;
-          return item;
-        } else {
-          return item;
-        }
-      });
-
-      return alert
-        ? { error: alert, rentalState: [...currentState] }
-        : { rentalState: [...currentState, payload] };
+      return { rentalState: [...state.rentalState, payload] };
 
     case DELETE_RESERVATION:
       return {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid, CssBaseline } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Header from "../components/Header/Header";
 import HeroSection from "../components/HeroSection/HeroSection";
 
