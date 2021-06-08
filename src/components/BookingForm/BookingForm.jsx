@@ -94,7 +94,11 @@ const Form = ({ itemID, setItemID }) => {
           onChange={handleChange}
         >
           {carModels.length
-            ? carModels.map((car, index) => console.log(car))
+            ? carModels.map(car => (
+                <MenuItem key={car["car_id"]} value={car["car_make"]}>
+                  {car["car_make"]} {car["car_model"]}
+                </MenuItem>
+              ))
             : null}
         </TextField>
         <TextField

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { RentalCarContext } from "../../context/context";
 
@@ -40,7 +40,8 @@ const LoginTemplate = () => {
       .then(data => {
         setLoginResponse({
           loggedIn: data["loggedIn"],
-          message: data["message"]
+          message: data["message"],
+          username: data["username"]
         });
       });
   }
