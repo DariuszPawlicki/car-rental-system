@@ -19,7 +19,7 @@ const youpSchema = Yup.object({
     .required("Required !")
 });
 
-const API_URL = "https://cars-renting-server.herokuapp.com/";
+export const API_URL = "https://cars-renting-server.herokuapp.com/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();

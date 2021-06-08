@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { v4 as uuid } from "uuid";
+
 import { RentalCarContext } from "../../context/context";
 
 import { MenuItem, TextField, FormControl, Button } from "@material-ui/core";
 import useStyle from "./style";
 
 import { formatDate } from "./dateTransform";
-
-const carsModel = [
-  { model: "Peugeot 208" },
-  { model: "Volkswagen Passat" },
-  { model: "BWM X6" },
-  { model: "BMW I7" },
-  { model: "Peugeot 207" }
-];
 
 const dataInit = {
   name: "",
@@ -27,11 +20,12 @@ const Form = ({ itemID, setItemID }) => {
   const [selectedData, setSelectedData] = useState(dataInit);
   const { form, input, formControl } = useStyle();
 
-  const { addCarReservation, updateReservation, state } = useContext(
+  const { carModels, addCarReservation, updateReservation, state } = useContext(
     RentalCarContext
   );
 
   const { rentalState } = state;
+  console.log(carModels);
 
   const findCurrentItem = id => rentalState.filter(item => item.id === id);
 
@@ -99,11 +93,9 @@ const Form = ({ itemID, setItemID }) => {
           value={selectedData.carModel}
           onChange={handleChange}
         >
-          {carsModel.map((car, index) => (
-            <MenuItem key={index} value={car.model}>
-              {car.model}
-            </MenuItem>
-          ))}
+          {carModels.length
+            ? carModels.map((car, index) => console.log(car))
+            : null}
         </TextField>
         <TextField
           className={input}

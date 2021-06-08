@@ -1,4 +1,8 @@
-import { useState, useReducer, createContext } from "react";
+import { useState, useEffect, useReducer, createContext } from "react";
+import axios from "axios";
+
+import { API_URL } from "../template/loginTemplate/loginTemplate";
+
 import {
   ADD_RESERVATION,
   DELETE_RESERVATION,
@@ -14,7 +18,18 @@ export const RentalCarContext = createContext(initState);
 export const Provider = ({ children }) => {
   const [loginResponse, setLoginResponse] = useState({});
 
+  const [carModels, setCardModels] = useState([]);
+
   const [state, dispatch] = useReducer(contextReducer, initState);
+
+  const getCarsData = async () => {
+    try {
+      const { data } = await axios.get(`${API_URL}fetch_cars_data.php`);
+      setCardModels(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const updateReservation = data => {
     dispatch({
@@ -37,9 +52,14 @@ export const Provider = ({ children }) => {
     });
   };
 
+  useEffect(() => {
+    getCarsData();
+  }, []);
+
   return (
     <RentalCarContext.Provider
       value={{
+        carModels,
         addCarReservation,
         deleteReservation,
         updateReservation,
