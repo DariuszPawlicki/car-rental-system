@@ -12,6 +12,8 @@ import { Grid, Paper, Avatar, Button, Typography } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./style";
 
+import Fade from "react-reveal/Fade";
+
 const youpSchema = Yup.object({
   login: Yup.string().required("Required!"),
   password: Yup.string()
@@ -20,12 +22,12 @@ const youpSchema = Yup.object({
 });
 
 export const API_URL = "https://cars-renting-server.herokuapp.com/";
-//export const API_URL = "http://localhost:4000/server/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
 
   const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
+  console.log(loginResponse);
 
   function login(loginData) {
     let formDataPost = new FormData();
@@ -82,17 +84,19 @@ const LoginTemplate = () => {
               >
                 Submit
               </Button>
-              <Button
-                style={{ marginTop: "2em" }}
-                variant="contained"
-                color="primary"
-                size="large"
-                type="submit"
-                href="/"
-              >
-                Back
-              </Button>
-              {loginResponse.loggedIn === false && (
+              {loginResponse.loggedIn && (
+                <Button
+                  style={{ marginTop: "2em" }}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                  href="/"
+                >
+                  Back
+                </Button>
+              )}
+              {!loginResponse.loggedIn ? (
                 <Typography
                   className={error}
                   style={{ marginTop: "1rem" }}
@@ -101,7 +105,7 @@ const LoginTemplate = () => {
                 >
                   {loginResponse.message}
                 </Typography>
-              )}
+              ) : null}
             </Form>
           </Formik>
         </div>

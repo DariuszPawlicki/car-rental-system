@@ -25,7 +25,6 @@ const Form = ({ itemID, setItemID }) => {
   );
 
   const { rentalState } = state;
-  console.log(carModels);
 
   const findCurrentItem = id => rentalState.filter(item => item.id === id);
 

@@ -7,6 +7,9 @@ import DriveEtaIcon from "@material-ui/icons/DriveEta";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import useStyles from "./style";
+
+import { Fade } from "react-reveal";
+
 import { API_URL } from "../../template/loginTemplate/loginTemplate";
 
 const Header = () => {
@@ -21,45 +24,51 @@ const Header = () => {
   } = useStyles();
 
   const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
+  console.log(loginResponse);
 
   return (
     <AppBar position="static" className={header}>
       <Toolbar className={toolbar}>
-        <DriveEtaIcon className={icon} />
+        <Fade left>
+          <DriveEtaIcon className={icon} />
+        </Fade>
+
         <Typography className={title} variant="h3">
           Cars Renting
         </Typography>
 
         {loginResponse.loggedIn && (
-          <div className={userDetails}>
-            <AccountCircleIcon className={iconUser} />
-            <Typography variant="subtitle1" align="center">
-              {loginResponse.message}
-            </Typography>
-          </div>
+          <Fade right>
+            <div className={userDetails}>
+              <AccountCircleIcon className={iconUser} />
+              <Typography variant="subtitle1" align="center">
+                {loginResponse.username}
+              </Typography>
+            </div>
+          </Fade>
         )}
 
         {loginResponse.loggedIn ? (
-          <Button
-            onClick={() =>
-              {
+          <Fade right>
+            <Button
+              onClick={() => {
                 setLoginResponse({
                   loggedIn: false
                 });
-  
-                fetch(API_URL + "logout.php", {
+
+                fetch(`${API_URL}logout.php`, {
                   credentials: "include"
                 });
-              }        
-            }
-            className={button}
-            component={Link}
-            to="/"
-            variant="outlined"
-            color="inherit"
-          >
-            Logout
-          </Button>
+              }}
+              className={button}
+              component={Link}
+              to="/"
+              variant="outlined"
+              color="inherit"
+            >
+              Logout
+            </Button>
+          </Fade>
         ) : (
           <Button
             className={button}

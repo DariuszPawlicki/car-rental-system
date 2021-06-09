@@ -5,9 +5,10 @@ import InfoCard from "./InfoCard/InfoCard";
 
 import { useTheme } from "@material-ui/core/styles";
 
+import { Fade } from "react-reveal";
+
 const InfoSection = ({ setItemID }) => {
   const { state } = useContext(RentalCarContext);
-  console.log(state);
 
   const { error, rentalState } = state;
   const theme = useTheme();
@@ -21,17 +22,21 @@ const InfoSection = ({ setItemID }) => {
       ) : null}
       {rentalState.length ? (
         rentalState.map((card, index) => (
-          <InfoCard key={index} setItemID={setItemID} {...card} />
+          <Fade top>
+            <InfoCard key={index} setItemID={setItemID} {...card} />
+          </Fade>
         ))
       ) : (
-        <Typography
-          style={{ marginTop: "2rem" }}
-          align="center"
-          color="primary"
-          variant="h4"
-        >
-          There are no reservations
-        </Typography>
+        <Fade top>
+          <Typography
+            style={{ marginTop: "2rem" }}
+            align="center"
+            color="primary"
+            variant="h4"
+          >
+            There are no reservations
+          </Typography>
+        </Fade>
       )}
     </Grid>
   );

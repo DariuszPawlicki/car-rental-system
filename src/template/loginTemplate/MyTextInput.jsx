@@ -1,17 +1,18 @@
-import React from "react";
 import { useField } from "formik";
 import { TextField, Typography } from "@material-ui/core";
+
+import Fade from "react-reveal/Fade";
 
 import useStyles from "./style";
 
 const MyTextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
-  const { error } = useStyles();
+  const { error, inputContainer } = useStyles();
 
   return (
-    <>
+    <div className={inputContainer}>
       <TextField
-        style={{ marginTop: "2em" }}
+        style={{ width: "100%" }}
         color="primary"
         label={label}
         variant="outlined"
@@ -20,11 +21,13 @@ const MyTextInput = ({ label, ...props }) => {
         {...props}
       />
       {meta.touched && meta.error ? (
-        <Typography variant="subtitle1" className={error}>
-          {meta.error}
-        </Typography>
+        <Fade top>
+          <Typography variant="subtitle1" className={error}>
+            {meta.error}
+          </Typography>
+        </Fade>
       ) : null}
-    </>
+    </div>
   );
 };
 
