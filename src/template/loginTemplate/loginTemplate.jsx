@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { RentalCarContext } from "../../context/context";
 
@@ -20,6 +20,7 @@ const youpSchema = Yup.object({
 });
 
 export const API_URL = "https://cars-renting-server.herokuapp.com/";
+//export const API_URL = "http://localhost:4000/server/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();

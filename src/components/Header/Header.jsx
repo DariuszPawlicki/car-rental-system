@@ -7,6 +7,7 @@ import DriveEtaIcon from "@material-ui/icons/DriveEta";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import useStyles from "./style";
+import { API_URL } from "../../template/loginTemplate/loginTemplate";
 
 const Header = () => {
   const {
@@ -41,9 +42,15 @@ const Header = () => {
         {loginResponse.loggedIn ? (
           <Button
             onClick={() =>
-              setLoginResponse({
-                loggedIn: false
-              })
+              {
+                setLoginResponse({
+                  loggedIn: false
+                });
+  
+                fetch(API_URL + "logout.php", {
+                  credentials: "include"
+                });
+              }        
             }
             className={button}
             component={Link}
