@@ -16,7 +16,7 @@ const initState = { rentalState: [] };
 export const RentalCarContext = createContext(initState);
 
 export const Provider = ({ children }) => {
-  const [loginResponse, setLoginResponse] = useState({ loggedIn: false });
+  const [loginResponse, setLoginResponse] = useState({ loggedIn: true });
 
   const [carModels, setCardModels] = useState([]);
 

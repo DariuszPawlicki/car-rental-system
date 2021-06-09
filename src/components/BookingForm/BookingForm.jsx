@@ -24,16 +24,14 @@ const Form = ({ itemID, setItemID }) => {
     RentalCarContext
   );
 
-  const { rentalState } = state;
-
-  const findCurrentItem = id => rentalState.filter(item => item.id === id);
-
   useEffect(() => {
+    const { rentalState } = state;
+    const findCurrentItem = id => rentalState.filter(item => item.id === id);
     if (itemID) {
       const [updateItem] = findCurrentItem(itemID);
       setSelectedData(updateItem);
     }
-  }, [itemID]);
+  }, [itemID, state]);
 
   const handleChange = e => {
     setSelectedData({
@@ -93,14 +91,19 @@ const Form = ({ itemID, setItemID }) => {
           onChange={handleChange}
         >
           {carModels.length
-            ? carModels.map(car => (
-                <MenuItem
-                  key={car["car_id"]}
-                  value={`${car["car_make"]} ${car["car_model"]}`}
-                >
-                  {car["car_make"]} {car["car_model"]}
-                </MenuItem>
-              ))
+            ? carModels.map(car => {
+                if (car["is_available"]) {
+                  return (
+                    <MenuItem
+                      key={car["car_id"]}
+                      value={`${car["car_make"]} ${car["car_model"]}`}
+                    >
+                      {car["car_make"]} {car["car_model"]}
+                    </MenuItem>
+                  );
+                }
+                return car;
+              })
             : null}
         </TextField>
         <TextField

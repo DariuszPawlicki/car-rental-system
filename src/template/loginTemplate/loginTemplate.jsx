@@ -12,8 +12,6 @@ import { Grid, Paper, Avatar, Button, Typography } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./style";
 
-import Fade from "react-reveal/Fade";
-
 const youpSchema = Yup.object({
   login: Yup.string().required("Required!"),
   password: Yup.string()
