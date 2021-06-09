@@ -95,7 +95,10 @@ const Form = ({ itemID, setItemID }) => {
         >
           {carModels.length
             ? carModels.map(car => (
-                <MenuItem key={car["car_id"]} value={car["car_make"]}>
+                <MenuItem
+                  key={car["car_id"]}
+                  value={`${car["car_make"]} ${car["car_model"]}`}
+                >
                   {car["car_make"]} {car["car_model"]}
                 </MenuItem>
               ))
