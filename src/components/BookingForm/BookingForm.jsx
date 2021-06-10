@@ -66,7 +66,7 @@ const Form = ({ itemID, setItemID }) => {
           id="name"
           name="name"
           label="Name"
-          value={selectedData.name}
+          value={selectedData?.name}
           onChange={handleChange}
         />
         <TextField
@@ -76,7 +76,7 @@ const Form = ({ itemID, setItemID }) => {
           id="surname"
           name="surname"
           label="Surname"
-          value={selectedData.surname}
+          value={selectedData?.surname}
           onChange={handleChange}
         />
         <TextField
@@ -87,7 +87,7 @@ const Form = ({ itemID, setItemID }) => {
           name="carModel"
           select
           label="Select model"
-          value={selectedData.carModel}
+          value={selectedData?.carModel}
           onChange={handleChange}
         >
           {carModels.length
@@ -112,7 +112,7 @@ const Form = ({ itemID, setItemID }) => {
           name="dateRental"
           type="date"
           label="Car rental date"
-          defaultValue={selectedData.dateRental}
+          defaultValue={selectedData?.dateRental}
           onChange={handleChange}
         />
         <TextField
@@ -121,7 +121,7 @@ const Form = ({ itemID, setItemID }) => {
           name="dateEndRental"
           type="date"
           label="Car rental end date"
-          value={selectedData.dateEndRental}
+          value={selectedData?.dateEndRental}
           onChange={handleChange}
         />
         <Button
