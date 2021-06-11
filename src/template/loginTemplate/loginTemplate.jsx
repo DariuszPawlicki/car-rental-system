@@ -12,14 +12,15 @@ import { Grid, Paper, Avatar, Button, Typography } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./style";
 
-const youpSchema = Yup.object({
+const yupSchema = Yup.object({
   login: Yup.string().required("Required!"),
   password: Yup.string()
     .min(8, "Minimum 8 characters")
     .required("Required !")
 });
 
-export const API_URL = "https://cars-renting-server.herokuapp.com/";
+//export const API_URL = "https://cars-renting-server.herokuapp.com/";
+export const API_URL = "http://localhost:4000/server/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
@@ -31,13 +32,13 @@ const LoginTemplate = () => {
     formDataPost.append("username", loginData["login"]);
     formDataPost.append("password", loginData["password"]);
 
-    fetch(`${API_URL}login.php`, {
+    fetch(API_URL + 'login.php', {
       method: "POST",
       credentials: "include",
       body: formDataPost
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setLoginResponse({
           loggedIn: data["loggedIn"],
           message: data["message"],
@@ -62,7 +63,7 @@ const LoginTemplate = () => {
               login: "",
               password: ""
             }}
-            validationSchema={youpSchema}
+            validationSchema={yupSchema}
             onSubmit={loginData => {
               login(loginData);
               loginData.login = "";
@@ -81,18 +82,6 @@ const LoginTemplate = () => {
               >
                 Submit
               </Button>
-              {loginResponse.loggedIn && (
-                <Button
-                  style={{ marginTop: "2em" }}
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  type="submit"
-                  href="/"
-                >
-                  Back
-                </Button>
-              )}
               {!loginResponse.loggedIn ? (
                 <Typography
                   className={error}

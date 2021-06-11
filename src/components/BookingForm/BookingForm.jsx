@@ -3,17 +3,24 @@ import { v4 as uuid } from "uuid";
 
 import { RentalCarContext } from "../../context/context";
 
+import * as Yup from "yup";
+
 import { MenuItem, TextField, FormControl, Button } from "@material-ui/core";
 import useStyle from "./style";
 
 import { formatDate } from "./dateTransform";
+import { API_URL } from "../../template/loginTemplate/loginTemplate";
+
+const yupSchema = Yup.object({
+  name: Yup.string().required("Required !")
+});
 
 const dataInit = {
   name: "",
   surname: "",
   carModel: "",
   dateRental: formatDate(new Date()),
-  dateEndRental: formatDate(new Date())
+  dateEndRental: formatDate(new Date()),
 };
 
 const Form = ({ itemID, setItemID }) => {
@@ -56,6 +63,26 @@ const Form = ({ itemID, setItemID }) => {
     setSelectedData(dataInit);
   };
 
+  function bookCar()
+  {
+    let rentalDataForm = new FormData();
+
+    console.log(selectedData);
+
+    rentalDataForm.append("name", selectedData['name']);
+    rentalDataForm.append("surname", selectedData['surname']);
+    rentalDataForm.append("date_rental", selectedData['dateRental']);
+    rentalDataForm.append("date_end_rental", selectedData['dateEndRental']);
+
+    fetch(API_URL + 'book_car.php', {
+      method: "POST",
+      credentials: "include",
+      body: rentalDataForm
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+  }
+
   return (
     <form className={form} noValidate autoComplete="off">
       <FormControl className={formControl}>
@@ -92,7 +119,6 @@ const Form = ({ itemID, setItemID }) => {
         >
           {carModels.length
             ? carModels.map(car => {
-                if (car["is_available"]) {
                   return (
                     <MenuItem
                       key={car["car_id"]}
@@ -101,8 +127,6 @@ const Form = ({ itemID, setItemID }) => {
                       {car["car_make"]} {car["car_model"]}
                     </MenuItem>
                   );
-                }
-                return car;
               })
             : null}
         </TextField>
@@ -130,7 +154,10 @@ const Form = ({ itemID, setItemID }) => {
           color="primary"
           variant="contained"
           type="submit"
-          onClick={e => addReservation(e)}
+          onClick={(e) => {
+              addReservation(e)
+              bookCar()    
+          }}
         >
           Book It
         </Button>
