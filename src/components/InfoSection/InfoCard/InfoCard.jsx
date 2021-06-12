@@ -6,6 +6,8 @@ import useStyles from "./style";
 
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
+import { API_URL } from "../../../template/loginTemplate/loginTemplate";
+
 import {
   Grid,
   Card,
@@ -37,6 +39,19 @@ const InfoCard = ({
 
   const { deleteReservation } = useContext(RentalCarContext);
 
+  function cancelRental()
+  {
+    fetch(API_URL + 'delete_rental.php', {
+      method: "POST",
+      credentials: "include"
+    })
+  }
+
+  function updateRentalInfo()
+  {
+
+  }
+
   return (
     <Grid item className={container}>
       <Card elevation={6} className={card}>
@@ -62,7 +77,10 @@ const InfoCard = ({
         </CardActionArea>
         <CardActions className={buttons}>
           <Button
-            onClick={() => deleteReservation(id)}
+            onClick={() => {
+              cancelRental()           
+              deleteReservation(id)
+            }}
             variant="outlined"
             size="medium"
             color="secondary"
@@ -70,7 +88,10 @@ const InfoCard = ({
             Delete
           </Button>
           <Button
-            onClick={() => setItemID(id)}
+            onClick={() => {
+                updateRentalInfo()
+                setItemID(id)
+            }}
             variant="outlined"
             size="medium"
             color="primary"

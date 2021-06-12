@@ -25,6 +25,7 @@ const dataInit = {
 
 const Form = ({ itemID, setItemID }) => {
   const [selectedData, setSelectedData] = useState(dataInit);
+  const [carRentResponse, setCarRentResponse] = useState({})
   const { form, input, formControl } = useStyle();
 
   const { carModels, addCarReservation, updateReservation, state } = useContext(
@@ -39,6 +40,10 @@ const Form = ({ itemID, setItemID }) => {
       setSelectedData(updateItem);
     }
   }, [itemID, state]);
+
+  useEffect(() => {
+    console.log(carRentResponse)
+  }, [carRentResponse])
 
   const handleChange = e => {
     setSelectedData({
@@ -80,7 +85,10 @@ const Form = ({ itemID, setItemID }) => {
       body: rentalDataForm
     })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => setCarRentResponse({
+      message: data["message"],
+      rentalSuccess: data["rental_success"]
+    }))
   }
 
   return (

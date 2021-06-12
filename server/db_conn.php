@@ -6,4 +6,6 @@
  
     $dsn = "pgsql:host=${db_host};dbname=${db_name}";
     $pdo = new PDO($dsn, $db_user, $db_password);
+
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
 ?>
