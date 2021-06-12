@@ -11,6 +11,7 @@ const InfoSection = ({ setItemID }) => {
   const { state } = useContext(RentalCarContext);
 
   const { error, rentalState } = state;
+
   const theme = useTheme();
 
   return (

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { v4 as uuid } from "uuid";
 
 import { RentalCarContext } from "../../context/context";
 
@@ -34,8 +33,6 @@ const Form = ({ itemID, setItemID }) => {
     RentalCarContext
   );
 
-  console.log(carModels);
-
   useEffect(() => {
     const { rentalState } = state;
     const findCurrentItem = id => rentalState.filter(item => item.id === id);
@@ -56,15 +53,13 @@ const Form = ({ itemID, setItemID }) => {
     });
   };
 
-  const addReservation = e => {
-    e.preventDefault();
-    if (selectedData === dataInit) return;
+  const addReservation = () => {
     if (itemID) {
       updateReservation(selectedData);
       setItemID(null);
     } else {
       const newSelectedData = {
-        id: uuid(),
+        id: getCarID(),
         ...selectedData
       };
       addCarReservation(newSelectedData);
@@ -72,16 +67,19 @@ const Form = ({ itemID, setItemID }) => {
     setSelectedData(dataInit);
   };
 
-  function bookCar() {
-    let rentalDataForm = new FormData();
-
+  const getCarID = () => {
     const [carID] = carModels.filter(
       car => `${car["car_make"]} ${car["car_model"]}` === selectedData.carModel
     );
+    return carID["car_id"];
+  };
 
-    console.log(carID["car_id"]);
+  function bookCar() {
+    let rentalDataForm = new FormData();
 
-    rentalDataForm.append("car_ID", carID["car_id"]);
+    const carID = getCarID();
+
+    rentalDataForm.append("car_ID", carID);
     rentalDataForm.append("surname", selectedData["surname"]);
     rentalDataForm.append("date_rental", selectedData["dateRental"]);
     rentalDataForm.append("date_end_rental", selectedData["dateEndRental"]);
@@ -172,7 +170,9 @@ const Form = ({ itemID, setItemID }) => {
           variant="contained"
           type="submit"
           onClick={e => {
-            addReservation(e);
+            e.preventDefault();
+            if (selectedData === dataInit) return;
+            addReservation();
             bookCar();
           }}
         >

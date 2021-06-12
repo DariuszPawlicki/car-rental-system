@@ -24,7 +24,6 @@ const Header = () => {
   } = useStyles();
 
   const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
-  console.log(loginResponse);
 
   return (
     <AppBar position="static" className={header}>
