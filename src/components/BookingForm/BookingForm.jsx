@@ -20,17 +20,21 @@ const dataInit = {
   surname: "",
   carModel: "",
   dateRental: formatDate(new Date()),
-  dateEndRental: formatDate(new Date()),
+  dateEndRental: formatDate(new Date())
 };
 
 const Form = ({ itemID, setItemID }) => {
   const [selectedData, setSelectedData] = useState(dataInit);
-  const [carRentResponse, setCarRentResponse] = useState({})
+
+  const [carRentResponse, setCarRentResponse] = useState({});
+
   const { form, input, formControl } = useStyle();
 
   const { carModels, addCarReservation, updateReservation, state } = useContext(
     RentalCarContext
   );
+
+  console.log(carModels);
 
   useEffect(() => {
     const { rentalState } = state;
@@ -41,9 +45,9 @@ const Form = ({ itemID, setItemID }) => {
     }
   }, [itemID, state]);
 
-  useEffect(() => {
-    console.log(carRentResponse)
-  }, [carRentResponse])
+  // useEffect(() => {
+  //   console.log(carRentResponse);
+  // }, [carRentResponse]);
 
   const handleChange = e => {
     setSelectedData({
@@ -68,27 +72,32 @@ const Form = ({ itemID, setItemID }) => {
     setSelectedData(dataInit);
   };
 
-  function bookCar()
-  {
+  function bookCar() {
     let rentalDataForm = new FormData();
 
-    console.log(selectedData);
+    const [carID] = carModels.filter(
+      car => `${car["car_make"]} ${car["car_model"]}` === selectedData.carModel
+    );
 
-    rentalDataForm.append("name", selectedData['name']);
-    rentalDataForm.append("surname", selectedData['surname']);
-    rentalDataForm.append("date_rental", selectedData['dateRental']);
-    rentalDataForm.append("date_end_rental", selectedData['dateEndRental']);
+    console.log(carID["car_id"]);
 
-    fetch(API_URL + 'book_car.php', {
+    rentalDataForm.append("car_ID", carID["car_id"]);
+    rentalDataForm.append("surname", selectedData["surname"]);
+    rentalDataForm.append("date_rental", selectedData["dateRental"]);
+    rentalDataForm.append("date_end_rental", selectedData["dateEndRental"]);
+
+    fetch(API_URL + "book_car.php", {
       method: "POST",
       credentials: "include",
       body: rentalDataForm
     })
-    .then((response) => response.json())
-    .then((data) => setCarRentResponse({
-      message: data["message"],
-      rentalSuccess: data["rental_success"]
-    }))
+      .then(response => response.json())
+      .then(data =>
+        setCarRentResponse({
+          message: data["message"],
+          rentalSuccess: data["rental_success"]
+        })
+      );
   }
 
   return (
@@ -127,14 +136,14 @@ const Form = ({ itemID, setItemID }) => {
         >
           {carModels.length
             ? carModels.map(car => {
-                  return (
-                    <MenuItem
-                      key={car["car_id"]}
-                      value={`${car["car_make"]} ${car["car_model"]}`}
-                    >
-                      {car["car_make"]} {car["car_model"]}
-                    </MenuItem>
-                  );
+                return (
+                  <MenuItem
+                    key={car["car_id"]}
+                    value={`${car["car_make"]} ${car["car_model"]}`}
+                  >
+                    {car["car_make"]} {car["car_model"]}
+                  </MenuItem>
+                );
               })
             : null}
         </TextField>
@@ -162,9 +171,9 @@ const Form = ({ itemID, setItemID }) => {
           color="primary"
           variant="contained"
           type="submit"
-          onClick={(e) => {
-              addReservation(e)
-              bookCar()    
+          onClick={e => {
+            addReservation(e);
+            bookCar();
           }}
         >
           Book It

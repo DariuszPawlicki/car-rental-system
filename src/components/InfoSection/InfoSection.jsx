@@ -22,7 +22,7 @@ const InfoSection = ({ setItemID }) => {
       ) : null}
       {rentalState.length ? (
         rentalState.map((card, index) => (
-          <Fade top>
+          <Fade key={index} top>
             <InfoCard key={index} setItemID={setItemID} {...card} />
           </Fade>
         ))
