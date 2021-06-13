@@ -79,7 +79,8 @@ const Form = ({ itemID, setItemID }) => {
 
     const carID = getCarID();
 
-    rentalDataForm.append("car_ID", carID);
+    rentalDataForm.append("car_id", carID);
+    rentalDataForm.append("name", selectedData["name"]);
     rentalDataForm.append("surname", selectedData["surname"]);
     rentalDataForm.append("date_rental", selectedData["dateRental"]);
     rentalDataForm.append("date_end_rental", selectedData["dateEndRental"]);
