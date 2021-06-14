@@ -46,7 +46,12 @@ const InfoCard = ({
     });
   }
 
-  function updateRentalInfo() {}
+  function updateRentalInfo() {
+    fetch(API_URL + "update_rental_info.php", {
+      method: "POST",
+      credentials: "include"
+    })
+  }
 
   return (
     <Grid item className={container}>

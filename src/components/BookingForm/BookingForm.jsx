@@ -77,9 +77,7 @@ const Form = ({ itemID, setItemID }) => {
   function bookCar() {
     let rentalDataForm = new FormData();
 
-    const carID = getCarID();
-
-    rentalDataForm.append("car_id", carID);
+    rentalDataForm.append("car_id", getCarID());
     rentalDataForm.append("name", selectedData["name"]);
     rentalDataForm.append("surname", selectedData["surname"]);
     rentalDataForm.append("date_rental", selectedData["dateRental"]);
@@ -94,7 +92,8 @@ const Form = ({ itemID, setItemID }) => {
       .then(data =>
         setCarRentResponse({
           message: data["message"],
-          rentalSuccess: data["rental_success"]
+          rentalSuccess: data["rental_success"],
+          rentalId: data["rental_id"]
         })
       );
   }

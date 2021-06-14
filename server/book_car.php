@@ -14,7 +14,7 @@
         $date_of_return = $_POST['date_end_rental'];
         $car_id = $_POST['car_id'];      
 
-        $response = ["message" => "", "rental_success" => false];
+        $response = ["message" => "", "rental_success" => false, "rental_id" => null];
 
         if(new DateTime($date_of_rent) > new DateTime($date_of_return))
         {
@@ -40,9 +40,15 @@
                 
                 $stmt->execute(["borrowers_name" => $borrowers_name, "borrowers_lastname" => $borrowers_lastname,
                                 "date_of_rent" => $date_of_rent, "date_of_return" => $date_of_return, "car_id" => $car_id]);
+                
+                $stmt = $pdo->prepare("SELECT * FROM scheduled_rentals WHERE ".
+                                      "rental_id = (SELECT MAX(rental_id) FROM scheduled_rentals)");
+                
+                $stmt->execute();
 
                 $response["message"] = "Rented car successfully.";
                 $response["rental_success"] = true;
+                $response["rental_id"] = $stmt->fetch()["rental_id"];
             }
         }
     
