@@ -26,6 +26,7 @@ const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
 
   const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
+  console.log(loginResponse);
 
   function login(loginData) {
     let formDataPost = new FormData();

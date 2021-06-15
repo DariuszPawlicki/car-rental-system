@@ -39,20 +39,6 @@ const InfoCard = ({
 
   const { deleteReservation } = useContext(RentalCarContext);
 
-  function cancelRental() {
-    fetch(API_URL + "delete_rental.php", {
-      method: "POST",
-      credentials: "include"
-    });
-  }
-
-  function updateRentalInfo() {
-    fetch(API_URL + "update_rental_info.php", {
-      method: "POST",
-      credentials: "include"
-    })
-  }
-
   return (
     <Grid item className={container}>
       <Card elevation={6} className={card}>
@@ -79,7 +65,6 @@ const InfoCard = ({
         <CardActions className={buttons}>
           <Button
             onClick={() => {
-              cancelRental();
               deleteReservation(id);
             }}
             variant="outlined"
@@ -87,17 +72,6 @@ const InfoCard = ({
             color="secondary"
           >
             Delete
-          </Button>
-          <Button
-            onClick={() => {
-              updateRentalInfo();
-              setItemID(id);
-            }}
-            variant="outlined"
-            size="medium"
-            color="primary"
-          >
-            Update
           </Button>
         </CardActions>
       </Card>

@@ -12,8 +12,6 @@ import useStyles from "./style";
 const HeroSection = () => {
   const { container, itemForm, itemInfo } = useStyles();
 
-  const [itemID, setItemID] = useState(null);
-
   const { breakpoints } = useTheme();
   const mediaSM = useMediaQuery(breakpoints.down("sm"));
 
@@ -24,10 +22,10 @@ const HeroSection = () => {
       container
     >
       <Grid item className={itemInfo}>
-        <InfoSection setItemID={setItemID} />
+        <InfoSection />
       </Grid>
       <Grid item className={itemForm}>
-        <BookingForm itemID={itemID} setItemID={setItemID} />
+        <BookingForm />
       </Grid>
     </Grid>
   );

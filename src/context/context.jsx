@@ -20,7 +20,12 @@ export const Provider = ({ children }) => {
 
   const [carModels, setCardModels] = useState([]);
 
+  const [carRentResponse, setCarRentResponse] = useState({});
+  console.log(carRentResponse);
+
   const [state, dispatch] = useReducer(contextReducer, initState);
+
+  const getAllReservation = () => {};
 
   const getCarsData = async () => {
     try {
@@ -45,7 +50,17 @@ export const Provider = ({ children }) => {
     });
   };
 
-  const deleteReservation = id => {
+  const deleteReservation = async id => {
+    try {
+      await fetch(`${API_URL}delete_rental.php`, {
+        method: "POST",
+        credentials: "include",
+        body: carRentResponse.rentalId
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     dispatch({
       type: DELETE_RESERVATION,
       payload: id
@@ -62,10 +77,11 @@ export const Provider = ({ children }) => {
         carModels,
         addCarReservation,
         deleteReservation,
-        updateReservation,
         state,
         loginResponse,
-        setLoginResponse
+        setLoginResponse,
+        carRentResponse,
+        setCarRentResponse
       }}
     >
       {children}
