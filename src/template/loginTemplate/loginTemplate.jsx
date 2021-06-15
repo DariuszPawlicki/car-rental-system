@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { RentalCarContext } from "../../context/context";
 
@@ -26,7 +26,6 @@ const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
 
   const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
-  console.log(loginResponse);
 
   function login(loginData) {
     let formDataPost = new FormData();
@@ -40,6 +39,9 @@ const LoginTemplate = () => {
     })
       .then(response => response.json())
       .then(data => {
+        if (data.loggedIn) {
+          localStorage.setItem("userData", JSON.stringify(data));
+        }
         setLoginResponse({
           loggedIn: data["loggedIn"],
           message: data["message"],
@@ -83,14 +85,14 @@ const LoginTemplate = () => {
               >
                 Submit
               </Button>
-              {!loginResponse.loggedIn ? (
+              {!loginResponse?.loggedIn ? (
                 <Typography
                   className={error}
                   style={{ marginTop: "1rem" }}
                   align="center"
                   variant="h5"
                 >
-                  {loginResponse.message}
+                  {loginResponse?.message}
                 </Typography>
               ) : null}
             </Form>

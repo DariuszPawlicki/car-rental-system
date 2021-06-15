@@ -23,7 +23,7 @@ const Header = () => {
     iconUser
   } = useStyles();
 
-  const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
+  const { loginResponse, deleteUser } = useContext(RentalCarContext);
 
   return (
     <AppBar position="static" className={header}>
@@ -36,28 +36,22 @@ const Header = () => {
           Cars Renting
         </Typography>
 
-        {loginResponse.loggedIn && (
+        {loginResponse?.loggedIn && (
           <Fade right>
             <div className={userDetails}>
               <AccountCircleIcon className={iconUser} />
               <Typography variant="subtitle1" align="center">
-                {loginResponse.username}
+                {loginResponse?.username}
               </Typography>
             </div>
           </Fade>
         )}
 
-        {loginResponse.loggedIn ? (
+        {loginResponse?.loggedIn ? (
           <Fade right>
             <Button
               onClick={() => {
-                setLoginResponse({
-                  loggedIn: false
-                });
-
-                fetch(`${API_URL}logout.php`, {
-                  credentials: "include"
-                });
+                deleteUser();
               }}
               className={button}
               component={Link}

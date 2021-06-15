@@ -21,7 +21,6 @@ export const Provider = ({ children }) => {
   const [carModels, setCardModels] = useState([]);
 
   const [carRentResponse, setCarRentResponse] = useState({});
-  console.log(carRentResponse);
 
   const [state, dispatch] = useReducer(contextReducer, initState);
 
@@ -36,11 +35,14 @@ export const Provider = ({ children }) => {
     }
   };
 
-  const updateReservation = data => {
-    dispatch({
-      type: UPDATE_RESERVATION,
-      payload: data
-    });
+  const getUserData = () => {
+    const userData = localStorage.getItem("userData");
+    setLoginResponse(JSON.parse(userData));
+  };
+
+  const deleteUser = () => {
+    localStorage.removeItem("userData");
+    getUserData();
   };
 
   const addCarReservation = data => {
@@ -69,6 +71,7 @@ export const Provider = ({ children }) => {
 
   useEffect(() => {
     getCarsData();
+    getUserData();
   }, []);
 
   return (
@@ -81,7 +84,8 @@ export const Provider = ({ children }) => {
         loginResponse,
         setLoginResponse,
         carRentResponse,
-        setCarRentResponse
+        setCarRentResponse,
+        deleteUser
       }}
     >
       {children}
