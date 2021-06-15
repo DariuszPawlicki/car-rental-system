@@ -20,7 +20,11 @@ export const Provider = ({ children }) => {
 
   const [carModels, setCardModels] = useState([]);
 
+  const [carRentResponse, setCarRentResponse] = useState({});
+
   const [state, dispatch] = useReducer(contextReducer, initState);
+
+  const getAllReservation = () => {};
 
   const getCarsData = async () => {
     try {
@@ -31,11 +35,14 @@ export const Provider = ({ children }) => {
     }
   };
 
-  const updateReservation = data => {
-    dispatch({
-      type: UPDATE_RESERVATION,
-      payload: data
-    });
+  const getUserData = () => {
+    const userData = localStorage.getItem("userData");
+    setLoginResponse(JSON.parse(userData));
+  };
+
+  const deleteUser = () => {
+    localStorage.removeItem("userData");
+    getUserData();
   };
 
   const addCarReservation = data => {
@@ -45,7 +52,17 @@ export const Provider = ({ children }) => {
     });
   };
 
-  const deleteReservation = id => {
+  const deleteReservation = async id => {
+    try {
+      await fetch(`${API_URL}delete_rental.php`, {
+        method: "POST",
+        credentials: "include",
+        body: carRentResponse.rentalId
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     dispatch({
       type: DELETE_RESERVATION,
       payload: id
@@ -54,6 +71,7 @@ export const Provider = ({ children }) => {
 
   useEffect(() => {
     getCarsData();
+    getUserData();
   }, []);
 
   return (
@@ -62,10 +80,12 @@ export const Provider = ({ children }) => {
         carModels,
         addCarReservation,
         deleteReservation,
-        updateReservation,
         state,
         loginResponse,
-        setLoginResponse
+        setLoginResponse,
+        carRentResponse,
+        setCarRentResponse,
+        deleteUser
       }}
     >
       {children}

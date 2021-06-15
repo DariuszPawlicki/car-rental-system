@@ -5,7 +5,6 @@ import {
 } from "./actionsType";
 
 export const contextReducer = (state, { type, payload }) => {
-  console.log(payload);
   switch (type) {
     case ADD_RESERVATION:
       return { rentalState: [...state.rentalState, payload] };

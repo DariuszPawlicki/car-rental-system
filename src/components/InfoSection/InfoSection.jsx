@@ -7,10 +7,11 @@ import { useTheme } from "@material-ui/core/styles";
 
 import { Fade } from "react-reveal";
 
-const InfoSection = ({ setItemID }) => {
+const InfoSection = () => {
   const { state } = useContext(RentalCarContext);
 
   const { error, rentalState } = state;
+
   const theme = useTheme();
 
   return (
@@ -22,8 +23,8 @@ const InfoSection = ({ setItemID }) => {
       ) : null}
       {rentalState.length ? (
         rentalState.map((card, index) => (
-          <Fade top>
-            <InfoCard key={index} setItemID={setItemID} {...card} />
+          <Fade key={index} top>
+            <InfoCard key={index} {...card} />
           </Fade>
         ))
       ) : (
