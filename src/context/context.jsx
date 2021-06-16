@@ -50,7 +50,9 @@ export const Provider = ({ children }) => {
 
   const deleteUser = () => {
     localStorage.removeItem("userData");
-    getUserData();
+    setLoginResponse({
+      loggedIn: false
+    });
   };
 
   const addCarReservation = data => {
@@ -77,10 +79,18 @@ export const Provider = ({ children }) => {
   };
 
   useEffect(() => {
+    if(loginResponse.loggedIn)
+    {
       getCarsData();
       getUserData();
       getReservationsData();
-  }, []);
+    }  
+  }, [loginResponse.loggedIn]);
+
+  useEffect(() => {
+
+    console.log(reservationsData);
+  }, [reservationsData])
 
   return (
     <RentalCarContext.Provider
