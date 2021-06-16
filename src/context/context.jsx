@@ -3,7 +3,11 @@ import axios from "axios";
 
 import { API_URL } from "../template/loginTemplate/loginTemplate";
 
-import { ADD_RESERVATION, DELETE_RESERVATION } from "./actionsType";
+import {
+  ADD_RESERVATION,
+  DELETE_RESERVATION,
+  ADD_ALL_RESERVATION
+} from "./actionsType";
 
 import { contextReducer } from "./contextReducer";
 
@@ -13,16 +17,13 @@ export const RentalCarContext = createContext(initState);
 
 export const Provider = ({ children }) => {
   const [loginResponse, setLoginResponse] = useState({ loggedIn: false });
-  console.log(loginResponse);
 
   const [carModels, setCardModels] = useState([]);
-
-  const [reservationsData, setReservationsData] = useState({});
-  console.log(reservationsData);
 
   const [carRentResponse, setCarRentResponse] = useState({});
 
   const [state, dispatch] = useReducer(contextReducer, initState);
+  console.log(state);
 
   const getReservationsData = () => {
     fetch(`${API_URL}fetch_rentals_data.php`, {
@@ -30,7 +31,9 @@ export const Provider = ({ children }) => {
       credentials: "include"
     })
       .then(response => response.json())
-      .then(data => setReservationsData(data));
+      .then(data => {
+        addAllReservation(data);
+      });
   };
 
   const getCarsData = async () => {
@@ -44,13 +47,26 @@ export const Provider = ({ children }) => {
 
   const getUserData = () => {
     const userData = localStorage.getItem("userData");
-    setLoginResponse(JSON.parse(userData));
+    const newUserData = JSON.parse(userData);
+
+    if (newUserData === null) {
+      setLoginResponse({ loggedIn: false });
+    } else {
+      setLoginResponse(newUserData);
+    }
   };
 
   const deleteUser = () => {
     localStorage.removeItem("userData");
     setLoginResponse({
       loggedIn: false
+    });
+  };
+
+  const addAllReservation = data => {
+    dispatch({
+      type: ADD_ALL_RESERVATION,
+      payload: data
     });
   };
 
@@ -78,11 +94,12 @@ export const Provider = ({ children }) => {
   };
 
   useEffect(() => {
-    getCarsData();
     getUserData();
-    if (!loginResponse.loggedIn) return;
-    getReservationsData();
-  }, []);
+    getCarsData();
+    if (loginResponse.loggedIn) {
+      getReservationsData();
+    }
+  }, [loginResponse.loggedIn]);
 
   return (
     <RentalCarContext.Provider

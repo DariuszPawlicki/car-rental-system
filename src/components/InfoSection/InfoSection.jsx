@@ -21,7 +21,7 @@ const InfoSection = () => {
           The Car is Reserved!
         </Typography>
       ) : null}
-      {rentalState.length ? (
+      {rentalState?.length ? (
         rentalState.map((card, index) => (
           <Fade key={index} top>
             <InfoCard key={index} {...card} />

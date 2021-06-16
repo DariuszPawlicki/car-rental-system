@@ -18,13 +18,12 @@ import {
 } from "@material-ui/core";
 
 const InfoCard = ({
-  name,
-  surname,
+  borrowers_name: name,
+  borrowers_lastname: surname,
   carModel,
-  dateRental,
-  dateEndRental,
-  setItemID,
-  id
+  date_of_rent: dateRental,
+  date_of_return: dateEndRental,
+  car_id: id
 }) => {
   const {
     container,
