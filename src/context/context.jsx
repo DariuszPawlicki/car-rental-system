@@ -3,11 +3,7 @@ import axios from "axios";
 
 import { API_URL } from "../template/loginTemplate/loginTemplate";
 
-import {
-  ADD_RESERVATION,
-  DELETE_RESERVATION,
-  UPDATE_RESERVATION
-} from "./actionsType";
+import { ADD_RESERVATION, DELETE_RESERVATION } from "./actionsType";
 
 import { contextReducer } from "./contextReducer";
 
@@ -17,9 +13,12 @@ export const RentalCarContext = createContext(initState);
 
 export const Provider = ({ children }) => {
   const [loginResponse, setLoginResponse] = useState({ loggedIn: false });
+  console.log(loginResponse);
 
   const [carModels, setCardModels] = useState([]);
+
   const [reservationsData, setReservationsData] = useState({});
+  console.log(reservationsData);
 
   const [carRentResponse, setCarRentResponse] = useState({});
 
@@ -30,8 +29,8 @@ export const Provider = ({ children }) => {
       method: "GET",
       credentials: "include"
     })
-    .then((response) => response.json())
-    .then((data) => setReservationsData(data))
+      .then(response => response.json())
+      .then(data => setReservationsData(data));
   };
 
   const getCarsData = async () => {
@@ -63,14 +62,14 @@ export const Provider = ({ children }) => {
   };
 
   const deleteReservation = async id => {
-      fetch(`${API_URL}delete_rental.php`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"rentalId": carRentResponse.rentalId})
-      });
+    fetch(`${API_URL}delete_rental.php`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ rentalId: carRentResponse.rentalId })
+    });
 
     dispatch({
       type: DELETE_RESERVATION,
@@ -79,18 +78,11 @@ export const Provider = ({ children }) => {
   };
 
   useEffect(() => {
-    if(loginResponse.loggedIn)
-    {
-      getCarsData();
-      getUserData();
-      getReservationsData();
-    }  
-  }, [loginResponse.loggedIn]);
-
-  useEffect(() => {
-
-    console.log(reservationsData);
-  }, [reservationsData])
+    getCarsData();
+    getUserData();
+    if (!loginResponse.loggedIn) return;
+    getReservationsData();
+  }, []);
 
   return (
     <RentalCarContext.Provider

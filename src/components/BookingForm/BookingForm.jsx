@@ -45,15 +45,9 @@ const Form = () => {
     setSelectedData(dataInit);
   };
 
-  useEffect(() => {
-    if (carRentResponse.rentalSuccess) {
-      addReservation();
-    }
-  }, [carRentResponse]);
-
   const getCarID = () => {
     const [carID] = carModels.filter(
-      car => `${car["car_make"]} ${car["car_model"]}` === selectedData.carModel
+      car => `${car["car_make"]} ${car["car_model"]}` === selectedData?.carModel
     );
     return carID["car_id"];
   };
@@ -81,6 +75,7 @@ const Form = () => {
             rentalId: data["rental_id"]
           })
         );
+      addReservation();
     } catch (error) {
       console.log(error);
     }
