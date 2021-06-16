@@ -23,7 +23,7 @@ const InfoCard = ({
   carModel,
   date_of_rent: dateRental,
   date_of_return: dateEndRental,
-  car_id: id
+  rental_id: id
 }) => {
   const {
     container,

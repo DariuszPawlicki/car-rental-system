@@ -23,7 +23,6 @@ export const Provider = ({ children }) => {
   const [carRentResponse, setCarRentResponse] = useState({});
 
   const [state, dispatch] = useReducer(contextReducer, initState);
-  console.log(state);
 
   const getReservationsData = () => {
     fetch(`${API_URL}fetch_rentals_data.php`, {
@@ -37,12 +36,12 @@ export const Provider = ({ children }) => {
   };
 
   const getCarsData = async () => {
-    try {
-      const { data } = await axios.get(`${API_URL}fetch_cars_data.php`);
-      setCardModels(data);
-    } catch (error) {
-      console.log(error);
-    }
+      fetch(`${API_URL}fetch_cars_data.php`, {
+        method: "GET",
+        credentials: "include"
+      })
+      .then((response) => response.json())
+      .then((data) => setCardModels(data));
   };
 
   const getUserData = () => {
@@ -77,14 +76,14 @@ export const Provider = ({ children }) => {
     });
   };
 
-  const deleteReservation = async id => {
+  const deleteReservation = id => {
     fetch(`${API_URL}delete_rental.php`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ rentalId: carRentResponse.rentalId })
+      body: JSON.stringify({ rentalId: id })
     });
 
     dispatch({
