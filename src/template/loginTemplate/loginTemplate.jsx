@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { RentalCarContext } from "../../context/context";
 
@@ -19,8 +19,8 @@ const yupSchema = Yup.object({
     .required("Required !")
 });
 
-export const API_URL = "https://cars-renting-server.herokuapp.com/";
-//export const API_URL = "http://localhost:4000/server/";
+//export const API_URL = "https://cars-renting-server.herokuapp.com/";
+export const API_URL = "http://localhost:4000/server/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
@@ -32,22 +32,22 @@ const LoginTemplate = () => {
     formDataPost.append("username", loginData["login"]);
     formDataPost.append("password", loginData["password"]);
 
-    fetch(API_URL + "login.php", {
+    fetch(`${API_URL}login.php`, {
       method: "POST",
       credentials: "include",
       body: formDataPost
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.loggedIn) {
-          localStorage.setItem("userData", JSON.stringify(data));
-        }
-        setLoginResponse({
-          loggedIn: data["loggedIn"],
-          message: data["message"],
-          username: data["username"]
-        });
+    .then(response => response.json())
+    .then(data => {
+      if (data.loggedIn) {
+        localStorage.setItem("userData", JSON.stringify(data));
+      }
+      setLoginResponse({
+        loggedIn: data["loggedIn"],
+        message: data["message"],
+        username: data["username"]
       });
+    });
   }
 
   return (

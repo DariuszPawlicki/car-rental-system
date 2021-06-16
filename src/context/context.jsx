@@ -19,12 +19,20 @@ export const Provider = ({ children }) => {
   const [loginResponse, setLoginResponse] = useState({ loggedIn: false });
 
   const [carModels, setCardModels] = useState([]);
+  const [reservationsData, setReservationsData] = useState({});
 
   const [carRentResponse, setCarRentResponse] = useState({});
 
   const [state, dispatch] = useReducer(contextReducer, initState);
 
-  const getAllReservation = () => {};
+  const getReservationsData = () => {
+    fetch(`${API_URL}fetch_rentals_data.php`, {
+      method: "GET",
+      credentials: "include"
+    })
+    .then((response) => response.json())
+    .then((data) => setReservationsData(data))
+  };
 
   const getCarsData = async () => {
     try {
@@ -53,15 +61,14 @@ export const Provider = ({ children }) => {
   };
 
   const deleteReservation = async id => {
-    try {
-      await fetch(`${API_URL}delete_rental.php`, {
+      fetch(`${API_URL}delete_rental.php`, {
         method: "POST",
         credentials: "include",
-        body: carRentResponse.rentalId
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({"rentalId": carRentResponse.rentalId})
       });
-    } catch (error) {
-      console.log(error);
-    }
 
     dispatch({
       type: DELETE_RESERVATION,
@@ -70,8 +77,9 @@ export const Provider = ({ children }) => {
   };
 
   useEffect(() => {
-    getCarsData();
-    getUserData();
+      getCarsData();
+      getUserData();
+      getReservationsData();
   }, []);
 
   return (

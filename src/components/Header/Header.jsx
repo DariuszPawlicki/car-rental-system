@@ -51,6 +51,11 @@ const Header = () => {
           <Fade right>
             <Button
               onClick={() => {
+                fetch(`${API_URL}logout.php`, {
+                  method: "GET",
+                  credentials: "include"
+                });
+
                 deleteUser();
               }}
               className={button}

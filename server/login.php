@@ -1,4 +1,9 @@
 <?php
+    $cookie_params = session_get_cookie_params();
+    $cookie_params["secure"] = true;
+
+    session_set_cookie_params($cookie_params);
+
     session_start();
     
     include "db_conn.php";

@@ -2,17 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { RentalCarContext } from "../../context/context";
 
-import * as Yup from "yup";
-
 import { MenuItem, TextField, FormControl, Button } from "@material-ui/core";
 import useStyle from "./style";
 
 import { formatDate } from "./dateTransform";
 import { API_URL } from "../../template/loginTemplate/loginTemplate";
-
-const yupSchema = Yup.object({
-  name: Yup.string().required("Required !")
-});
 
 const dataInit = {
   name: "",

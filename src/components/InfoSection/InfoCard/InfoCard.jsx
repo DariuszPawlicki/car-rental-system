@@ -6,8 +6,6 @@ import useStyles from "./style";
 
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
-import { API_URL } from "../../../template/loginTemplate/loginTemplate";
-
 import {
   Grid,
   Card,
