@@ -20,28 +20,32 @@ export const Provider = ({ children }) => {
 
   const [carModels, setCardModels] = useState([]);
 
-  const [carRentResponse, setCarRentResponse] = useState({});
-
   const [state, dispatch] = useReducer(contextReducer, initState);
+  console.log(state.rentalState);
 
-  const getReservationsData = () => {
-    fetch(`${API_URL}fetch_rentals_data.php`, {
+  const getReservationsData = async () => {
+    try {
+      await fetch(`${API_URL}fetch_rentals_data.php`, {
+        method: "GET",
+        credentials: "include"
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          addAllReservation(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCarsData = async () => {
+    fetch(`${API_URL}fetch_cars_data.php`, {
       method: "GET",
       credentials: "include"
     })
       .then(response => response.json())
-      .then(data => {
-        addAllReservation(data);
-      });
-  };
-
-  const getCarsData = async () => {
-      fetch(`${API_URL}fetch_cars_data.php`, {
-        method: "GET",
-        credentials: "include"
-      })
-      .then((response) => response.json())
-      .then((data) => setCardModels(data));
+      .then(data => setCardModels(data));
   };
 
   const getUserData = () => {
@@ -74,6 +78,7 @@ export const Provider = ({ children }) => {
       type: ADD_RESERVATION,
       payload: data
     });
+    getReservationsData();
   };
 
   const deleteReservation = rentalId => {
@@ -85,19 +90,22 @@ export const Provider = ({ children }) => {
       },
       body: JSON.stringify({ rentalId: rentalId })
     })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-
-    dispatch({
-      type: DELETE_RESERVATION,
-      payload: rentalId
-    });
+      .then(response => response.json())
+      .then(({ deleted }) => {
+        if (deleted) {
+          dispatch({
+            type: DELETE_RESERVATION,
+            payload: rentalId
+          });
+          getReservationsData();
+        }
+      });
   };
 
   useEffect(() => {
     getUserData();
-    getCarsData();
     if (loginResponse.loggedIn) {
+      getCarsData();
       getReservationsData();
     }
   }, [loginResponse.loggedIn]);
@@ -111,9 +119,9 @@ export const Provider = ({ children }) => {
         state,
         loginResponse,
         setLoginResponse,
-        carRentResponse,
-        setCarRentResponse,
-        deleteUser
+        deleteUser,
+        dispatch,
+        getReservationsData
       }}
     >
       {children}

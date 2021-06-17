@@ -21,13 +21,7 @@ const Form = () => {
 
   const { form, input, formControl } = useStyle();
 
-  const {
-    carModels,
-    addCarReservation,
-    setCarRentResponse,
-    carRentResponse,
-    state
-  } = useContext(RentalCarContext);
+  const { carModels, addCarReservation } = useContext(RentalCarContext);
 
   const handleChange = e => {
     setSelectedData({
@@ -68,14 +62,11 @@ const Form = () => {
         body: rentalDataForm
       })
         .then(response => response.json())
-        .then(data =>
-          setCarRentResponse({
-            message: data["message"],
-            rentalSuccess: data["rental_success"],
-            rentalId: data["rental_id"]
-          })
-        );
-      addReservation();
+        .then(data => {
+          if (data) {
+            addReservation();
+          }
+        });
     } catch (error) {
       console.log(error);
     }
