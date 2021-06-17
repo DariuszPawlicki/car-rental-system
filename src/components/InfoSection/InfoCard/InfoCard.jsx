@@ -18,12 +18,12 @@ import {
 } from "@material-ui/core";
 
 const InfoCard = ({
-  borrowers_name: name,
-  borrowers_lastname: surname,
+  name,
+  surname,
   carModel,
-  date_of_rent: dateRental,
-  date_of_return: dateEndRental,
-  rental_id: id
+  dateRental,
+  dateEndRental,
+  rentalId
 }) => {
   const {
     container,
@@ -62,7 +62,7 @@ const InfoCard = ({
         <CardActions className={buttons}>
           <Button
             onClick={() => {
-              deleteReservation(id);
+              deleteReservation(rentalId);
             }}
             variant="outlined"
             size="medium"

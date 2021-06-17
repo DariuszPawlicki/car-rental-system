@@ -76,19 +76,19 @@ export const Provider = ({ children }) => {
     });
   };
 
-  const deleteReservation = id => {
+  const deleteReservation = rentalId => {
     fetch(`${API_URL}delete_rental.php`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ rentalId: id })
+      body: JSON.stringify({ rentalId: rentalId })
     });
 
     dispatch({
       type: DELETE_RESERVATION,
-      payload: id
+      payload: rentalId
     });
   };
 
