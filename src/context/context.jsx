@@ -6,7 +6,7 @@ import { API_URL } from "../template/loginTemplate/loginTemplate";
 import {
   ADD_RESERVATION,
   DELETE_RESERVATION,
-  UPDATE_RESERVATION
+  ADD_ALL_RESERVATION
 } from "./actionsType";
 
 import { contextReducer } from "./contextReducer";
@@ -19,33 +19,43 @@ export const Provider = ({ children }) => {
   const [loginResponse, setLoginResponse] = useState({ loggedIn: false });
 
   const [carModels, setCardModels] = useState([]);
-  const [reservationsData, setReservationsData] = useState({});
-
-  const [carRentResponse, setCarRentResponse] = useState({});
 
   const [state, dispatch] = useReducer(contextReducer, initState);
+  console.log(state.rentalState);
 
-  const getReservationsData = () => {
-    fetch(`${API_URL}fetch_rentals_data.php`, {
-      method: "GET",
-      credentials: "include"
-    })
-    .then((response) => response.json())
-    .then((data) => setReservationsData(data))
-  };
-
-  const getCarsData = async () => {
+  const getReservationsData = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}fetch_cars_data.php`);
-      setCardModels(data);
+      await fetch(`${API_URL}fetch_rentals_data.php`, {
+        method: "GET",
+        credentials: "include"
+      })
+        .then(response => response.json())
+        .then(data => {
+          addAllReservation(data);
+        });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getCarsData = async () => {
+    fetch(`${API_URL}fetch_cars_data.php`, {
+      method: "GET",
+      credentials: "include"
+    })
+      .then(response => response.json())
+      .then(data => setCardModels(data));
+  };
+
   const getUserData = () => {
     const userData = localStorage.getItem("userData");
-    setLoginResponse(JSON.parse(userData));
+    const newUserData = JSON.parse(userData);
+
+    if (newUserData === null) {
+      setLoginResponse({ loggedIn: false });
+    } else {
+      setLoginResponse(newUserData);
+    }
   };
 
   const deleteUser = () => {
@@ -55,42 +65,49 @@ export const Provider = ({ children }) => {
     });
   };
 
+  const addAllReservation = data => {
+    dispatch({
+      type: ADD_ALL_RESERVATION,
+      payload: data
+    });
+  };
+
   const addCarReservation = data => {
     dispatch({
       type: ADD_RESERVATION,
       payload: data
     });
+    getReservationsData();
   };
 
-  const deleteReservation = async id => {
-      fetch(`${API_URL}delete_rental.php`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"rentalId": carRentResponse.rentalId})
+  const deleteReservation = rentalId => {
+    fetch(`${API_URL}delete_rental.php`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ rentalId: rentalId })
+    })
+      .then(response => response.json())
+      .then(({ deleted }) => {
+        if (deleted) {
+          dispatch({
+            type: DELETE_RESERVATION,
+            payload: rentalId
+          });
+          getReservationsData();
+        }
       });
-
-    dispatch({
-      type: DELETE_RESERVATION,
-      payload: id
-    });
   };
 
   useEffect(() => {
-    if(loginResponse.loggedIn)
-    {
+    getUserData();
+    if (loginResponse.loggedIn) {
       getCarsData();
-      getUserData();
       getReservationsData();
-    }  
+    }
   }, [loginResponse.loggedIn]);
-
-  useEffect(() => {
-
-    console.log(reservationsData);
-  }, [reservationsData])
 
   return (
     <RentalCarContext.Provider
@@ -101,9 +118,9 @@ export const Provider = ({ children }) => {
         state,
         loginResponse,
         setLoginResponse,
-        carRentResponse,
-        setCarRentResponse,
-        deleteUser
+        deleteUser,
+        dispatch,
+        getReservationsData
       }}
     >
       {children}

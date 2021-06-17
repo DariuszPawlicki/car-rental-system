@@ -17,14 +17,15 @@ import {
   Typography
 } from "@material-ui/core";
 
+import { DELETE_RESERVATION } from "../../../context/actionsType";
+
 const InfoCard = ({
   name,
   surname,
   carModel,
   dateRental,
   dateEndRental,
-  setItemID,
-  id
+  rentalId
 }) => {
   const {
     container,
@@ -63,7 +64,8 @@ const InfoCard = ({
         <CardActions className={buttons}>
           <Button
             onClick={() => {
-              deleteReservation(id);
+              console.log(rentalId);
+              deleteReservation(rentalId);
             }}
             variant="outlined"
             size="medium"

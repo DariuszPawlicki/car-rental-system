@@ -21,13 +21,7 @@ const Form = () => {
 
   const { form, input, formControl } = useStyle();
 
-  const {
-    carModels,
-    addCarReservation,
-    setCarRentResponse,
-    carRentResponse,
-    state
-  } = useContext(RentalCarContext);
+  const { carModels, addCarReservation } = useContext(RentalCarContext);
 
   const handleChange = e => {
     setSelectedData({
@@ -45,15 +39,9 @@ const Form = () => {
     setSelectedData(dataInit);
   };
 
-  useEffect(() => {
-    if (carRentResponse.rentalSuccess) {
-      addReservation();
-    }
-  }, [carRentResponse]);
-
   const getCarID = () => {
     const [carID] = carModels.filter(
-      car => `${car["car_make"]} ${car["car_model"]}` === selectedData.carModel
+      car => `${car["car_make"]} ${car["car_model"]}` === selectedData?.carModel
     );
     return carID["car_id"];
   };
@@ -74,13 +62,11 @@ const Form = () => {
         body: rentalDataForm
       })
         .then(response => response.json())
-        .then(data =>
-          setCarRentResponse({
-            message: data["message"],
-            rentalSuccess: data["rental_success"],
-            rentalId: data["rental_id"]
-          })
-        );
+        .then(({ message, rental_success: success }) => {
+          if (success) {
+            addReservation();
+          }
+        });
     } catch (error) {
       console.log(error);
     }

@@ -3,9 +3,10 @@
     
     include "db_conn.php";
 
-    header("Access-Control-Allow-Origin: {$_SESSION['request_origin']}");
+    //header("Access-Control-Allow-Origin: {$_SESSION['request_origin']}");
+    header("Access-Control-Allow-Origin: http://localhost:3000");
     header("Access-Control-Allow-Credentials: true");
-    header("Access-Control-Allow-Headers: *");
+    header("Access-Control-Allow-Headers: Content-Type, Accept");
 
     $rental_id = json_decode(file_get_contents("php://input"), true)["rentalId"];
 
