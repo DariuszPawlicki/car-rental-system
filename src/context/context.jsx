@@ -84,7 +84,9 @@ export const Provider = ({ children }) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ rentalId: rentalId })
-    });
+    })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
 
     dispatch({
       type: DELETE_RESERVATION,
