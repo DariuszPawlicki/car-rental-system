@@ -62,8 +62,8 @@ const Form = () => {
         body: rentalDataForm
       })
         .then(response => response.json())
-        .then(data => {
-          if (data) {
+        .then(({ message, rental_success: success }) => {
+          if (success) {
             addReservation();
           }
         });

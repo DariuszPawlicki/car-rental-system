@@ -31,7 +31,6 @@ export const Provider = ({ children }) => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           addAllReservation(data);
         });
     } catch (error) {
