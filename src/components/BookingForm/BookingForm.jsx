@@ -2,7 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { RentalCarContext } from "../../context/context";
 
-import { MenuItem, TextField, FormControl, Button } from "@material-ui/core";
+import {
+  MenuItem,
+  TextField,
+  FormControl,
+  Button,
+  Typography
+} from "@material-ui/core";
 import useStyle from "./style";
 
 import { formatDate } from "./dateTransform";
@@ -19,7 +25,16 @@ const dataInit = {
 const Form = () => {
   const [selectedData, setSelectedData] = useState(dataInit);
 
-  const { form, input, formControl } = useStyle();
+  const [carSuccess, setCarSuccess] = useState(null);
+  const [rentalMessage, setRentalMessage] = useState("");
+
+  const {
+    form,
+    input,
+    formControl,
+    carErrorStyle,
+    carSuccessStyle
+  } = useStyle();
 
   const { carModels, addCarReservation } = useContext(RentalCarContext);
 
@@ -65,6 +80,11 @@ const Form = () => {
         .then(({ message, rental_success: success }) => {
           if (success) {
             addReservation();
+            setCarSuccess(success);
+            setRentalMessage(message);
+          } else {
+            setCarSuccess(success);
+            setRentalMessage(message);
           }
         });
     } catch (error) {
@@ -145,12 +165,33 @@ const Form = () => {
           type="submit"
           onClick={e => {
             e.preventDefault();
-            if (selectedData === dataInit) return;
+            if (
+              selectedData === dataInit ||
+              selectedData.carModel === "" ||
+              selectedData.surname === "" ||
+              selectedData.name === ""
+            ) {
+              setRentalMessage(
+                "Please fill in the details in the form correctly"
+              );
+              setSelectedData(dataInit);
+              return;
+            }
+
             bookCar();
+            setSelectedData(dataInit);
           }}
         >
           Book It
         </Button>
+        {selectedData ? (
+          <Typography
+            className={carSuccess ? carSuccessStyle : carErrorStyle}
+            variant="h6"
+          >
+            {carSuccess ? rentalMessage : rentalMessage}
+          </Typography>
+        ) : null}
       </FormControl>
     </form>
   );

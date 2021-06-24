@@ -16,5 +16,13 @@ export default makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       width: "80%"
     }
+  },
+  carErrorStyle: {
+    color: theme.palette.error.main,
+    marginTop: "1rem"
+  },
+  carSuccessStyle: {
+    color: theme.palette.success.main,
+    marginTop: "1rem"
   }
 }));
