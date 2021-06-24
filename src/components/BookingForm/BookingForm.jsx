@@ -189,7 +189,7 @@ const Form = () => {
             className={carSuccess ? carSuccessStyle : carErrorStyle}
             variant="h6"
           >
-            {carSuccess ? rentalMessage : rentalMessage}
+            {rentalMessage}
           </Typography>
         ) : null}
       </FormControl>
