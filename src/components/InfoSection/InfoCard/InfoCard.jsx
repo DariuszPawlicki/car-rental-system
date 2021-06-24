@@ -64,7 +64,6 @@ const InfoCard = ({
         <CardActions className={buttons}>
           <Button
             onClick={() => {
-              console.log(rentalId);
               deleteReservation(rentalId);
             }}
             variant="outlined"

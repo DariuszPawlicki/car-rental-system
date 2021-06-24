@@ -21,7 +21,6 @@ export const Provider = ({ children }) => {
   const [carModels, setCardModels] = useState([]);
 
   const [state, dispatch] = useReducer(contextReducer, initState);
-  console.log(state.rentalState);
 
   const getReservationsData = async () => {
     try {
