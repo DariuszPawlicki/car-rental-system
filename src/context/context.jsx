@@ -1,5 +1,4 @@
 import { useState, useEffect, useReducer, createContext } from "react";
-import axios from "axios";
 
 import { API_URL } from "../template/loginTemplate/loginTemplate";
 
@@ -86,7 +85,7 @@ export const Provider = ({ children }) => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ rentalId: rentalId })
+      body: JSON.stringify({ rentalId })
     })
       .then(response => response.json())
       .then(({ deleted }) => {

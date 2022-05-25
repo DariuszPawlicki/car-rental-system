@@ -1,37 +1,42 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 
 import { RentalCarContext } from "../../context/context";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import MyTextInput from "./MyTextInput";
+import MyTextInput from "../loginTemplate/MyTextInput";
 
 import { Grid, Paper, Avatar, Button, Typography } from "@material-ui/core";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import useStyles from "./style";
+import useStyles from "../loginTemplate/style";
 
 const yupSchema = Yup.object({
-  login: Yup.string().required("Required!"),
+  name: Yup.string().required("Required !"),
+  surname: Yup.string().required("Required !"),
   password: Yup.string()
     .min(8, "Minimum 8 characters")
+    .required("Required !"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Required !")
 });
 
 export const API_URL = "https://cars-renting-server.herokuapp.com/";
 //export const API_URL = "http://localhost:4000/server/";
 
-const LoginTemplate = () => {
+const RegisterTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
 
   const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
 
-  const login = async loginData => {
+  const registerUser = async registerData => {
     let formDataPost = new FormData();
-    formDataPost.append("username", loginData["login"]);
-    formDataPost.append("password", loginData["password"]);
+    formDataPost.append("username", registerData["name"]);
+    formDataPost.append("surname", registerData["surname"]);
+    formDataPost.append("password", registerData["password"]);
+    formDataPost.append("confirmPassword", registerData["confirmPassword"]);
 
     await fetch(`${API_URL}login.php`, {
       method: "POST",
@@ -40,7 +45,7 @@ const LoginTemplate = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.loggedIn) {
+        if (data.signIn) {
           localStorage.setItem("userData", JSON.stringify(data));
         }
         setLoginResponse({
@@ -64,19 +69,29 @@ const LoginTemplate = () => {
           </Typography>
           <Formik
             initialValues={{
-              login: "",
-              password: ""
+              name: "",
+              surname: "",
+              password: "",
+              confirmPassword: ""
             }}
             validationSchema={yupSchema}
-            onSubmit={loginData => {
-              login(loginData);
-              loginData.login = "";
-              loginData.password = "";
+            onSubmit={registerData => {
+              registerUser(registerData);
+              registerData.name = "";
+              registerData.surname = "";
+              registerData.password = "";
+              registerData.confirmPassword = "";
             }}
           >
             <Form className={form}>
-              <MyTextInput label="Login" name="login" type="text" />
+              <MyTextInput label="name" name="name" type="text" />
+              <MyTextInput label="surname" name="surname" type="text" />
               <MyTextInput label="Password" name="password" type="password" />
+              <MyTextInput
+                label="confirmPassword"
+                name="confirmPassword"
+                type="password"
+              />
               <Button
                 style={{ marginTop: "2em" }}
                 variant="contained"
@@ -86,18 +101,6 @@ const LoginTemplate = () => {
               >
                 Submit
               </Button>
-              <Link to="/register">
-                <Typography
-                  style={{
-                    marginTop: "1rem"
-                  }}
-                  align="center"
-                  variant="body1"
-                >
-                  You don't have account yet ? Sign In !
-                </Typography>
-              </Link>
-
               {!loginResponse?.loggedIn && (
                 <Typography
                   className={error}
@@ -116,4 +119,4 @@ const LoginTemplate = () => {
   );
 };
 
-export default LoginTemplate;
+export default RegisterTemplate;

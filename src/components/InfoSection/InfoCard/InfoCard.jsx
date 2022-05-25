@@ -17,8 +17,6 @@ import {
   Typography
 } from "@material-ui/core";
 
-import { DELETE_RESERVATION } from "../../../context/actionsType";
-
 const InfoCard = ({
   name,
   surname,
