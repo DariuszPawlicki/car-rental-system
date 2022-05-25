@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { RentalCarContext } from "../../context/context";
 
@@ -101,6 +102,17 @@ const RegisterTemplate = () => {
               >
                 Submit
               </Button>
+              <Link to="/login">
+                <Typography
+                  style={{
+                    marginTop: "1rem"
+                  }}
+                  align="center"
+                  variant="body1"
+                >
+                  You have account ? Log In !
+                </Typography>
+              </Link>
               {!loginResponse?.loggedIn && (
                 <Typography
                   className={error}
