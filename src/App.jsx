@@ -5,6 +5,7 @@ import PageTemplate from "./template/pageTemplate";
 import LoginTemplate from "./template/loginTemplate/loginTemplate";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import RegisterTemplate from "./template/registerTemplate/registerTemplate";
 
 const App = () => {
   const { loginResponse } = useContext(RentalCarContext);
@@ -13,6 +14,9 @@ const App = () => {
     <>
       <Router>
         <Switch>
+          <Route exact path="/register">
+            {!loginResponse?.loggedIn && <RegisterTemplate />}
+          </Route>
           <Route exact path="/login">
             {loginResponse?.loggedIn ? <PageTemplate /> : <LoginTemplate />}
           </Route>
