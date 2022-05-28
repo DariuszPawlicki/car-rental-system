@@ -42,7 +42,7 @@ const RegisterTemplate = () => {
 
     await fetch(`${API_URL}register.php`, {
       method: "POST",
-      credentials: "include",
+      //credentials: "include",
       body: formDataPost
     })
       .then(response => response.json())
