@@ -30,10 +30,13 @@
 
             $response['signIn'] = true;
             $response['message'] = "Account created";
+
+            http_response_code(200);
         }
         else
         {
             $response['message'] = 'Cannot connect to database';
+            http_response_code(404);
         }           
         
         echo(json_encode($response));
