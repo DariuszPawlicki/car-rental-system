@@ -2,7 +2,7 @@
     session_start();
 
     //header("Access-Control-Allow-Origin: {$_SESSION['request_origin']}");
-    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: https://main.d3rc01zxc7rwnf.amplifyapp.com");
     //header("Access-Control-Allow-Credentials: true");
 
     if(isset($_SESSION['username']))
