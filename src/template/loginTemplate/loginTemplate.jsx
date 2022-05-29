@@ -42,7 +42,7 @@ const LoginTemplate = () => {
 
     await fetch(`${API_URL}login.php`, {
       method: "POST",
-      //credentials: "include",
+      credentials: "include",
       body: formDataPost
     })
       .then(response => response.json())
