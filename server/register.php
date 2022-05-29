@@ -14,7 +14,7 @@
 
     //header("Access-Control-Allow-Origin: {$_SESSION['request_origin']}");
     header("Access-Control-Allow-Origin: https://main.d3rc01zxc7rwnf.amplifyapp.com:443");
-    //header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Credentials: true");
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
