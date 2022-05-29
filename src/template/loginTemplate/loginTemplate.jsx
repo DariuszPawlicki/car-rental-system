@@ -20,8 +20,9 @@ const yupSchema = Yup.object({
     .required("Required !")
 });
 
-export const API_URL = "https://cars-renting-server.herokuapp.com/";
-//export const API_URL = "http://localhost:4000/server/";
+//export const API_URL = "https://cars-renting-server.herokuapp.com/";
+//export const API_URL = "http://localhost:8080/";
+export const API_URL = "https://ec2-35-159-52-215.eu-central-1.compute.amazonaws.com/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
@@ -33,9 +34,15 @@ const LoginTemplate = () => {
     formDataPost.append("username", loginData["login"]);
     formDataPost.append("password", loginData["password"]);
 
+    await fetch(`${API_URL}hello.php`, {
+      method: "GET",
+      //credentials: "include",
+    })
+      .then(response => response.json())
+
     await fetch(`${API_URL}login.php`, {
       method: "POST",
-      credentials: "include",
+      //credentials: "include",
       body: formDataPost
     })
       .then(response => response.json())

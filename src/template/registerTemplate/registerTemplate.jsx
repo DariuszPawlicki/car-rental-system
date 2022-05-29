@@ -25,7 +25,8 @@ const yupSchema = Yup.object({
 });
 
 //export const API_URL = "https://cars-renting-server.herokuapp.com/";
-export const API_URL = "http://localhost:4000/server/";
+//export const API_URL = "http://localhost:8080/";
+export const API_URL = "http://ec2-35-159-52-215.eu-central-1.compute.amazonaws.com/";
 
 const RegisterTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
@@ -41,7 +42,7 @@ const RegisterTemplate = () => {
 
     await fetch(`${API_URL}register.php`, {
       method: "POST",
-      credentials: "include",
+      //credentials: "include",
       body: formDataPost
     })
       .then(response => response.json())
