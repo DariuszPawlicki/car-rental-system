@@ -22,7 +22,7 @@ const yupSchema = Yup.object({
 
 //export const API_URL = "https://cars-renting-server.herokuapp.com/";
 //export const API_URL = "http://localhost:8080/";
-export const API_URL = "https://ec2-35-159-52-215.eu-central-1.compute.amazonaws.com/";
+export const API_URL = "https://ec2-35-159-52-215.eu-central-1.compute.amazonaws.com:8080/";
 
 const LoginTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
