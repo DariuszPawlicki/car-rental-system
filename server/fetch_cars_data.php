@@ -4,7 +4,7 @@
     include "db_conn.php";
 
     //header("Access-Control-Allow-Origin: {$_SESSION['request_origin']}");
-    header("Access-Control-Allow-Origin: https://main.d3rc01zxc7rwnf.amplifyapp.com");
+    header("Access-Control-Allow-Origin: https://main.d3rc01zxc7rwnf.amplifyapp.com:443");
     //header("Access-Control-Allow-Credentials: true");
 
     $stmt = $pdo->query("SELECT * FROM cars");
