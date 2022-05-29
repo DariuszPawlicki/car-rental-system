@@ -13,7 +13,7 @@
         $_SESSION['request_origin'] = 'http://localhost:3000';
 
     //header("Access-Control-Allow-Origin: {$_SESSION['request_origin']}");
-    header("Access-Control-Allow-Origin: http://main.d3rc01zxc7rwnf.amplifyapp.com:80");
+    header("Access-Control-Allow-Origin: https://cors-everywhere-me.herokuapp.com/");
     header("Access-Control-Allow-Credentials: true");
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
