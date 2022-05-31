@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { RentalCarContext } from "../../context/context";
 
@@ -31,6 +31,7 @@ export const API_URL =
 
 const RegisterTemplate = () => {
   const { root, image, paper, avatar, form, error } = useStyles();
+  const history = useHistory();
 
   const { loginResponse, setLoginResponse } = useContext(RentalCarContext);
 
@@ -44,14 +45,12 @@ const RegisterTemplate = () => {
     await fetch(`${API_URL}register.php`, {
       method: "POST",
       credentials: "include",
-      body: formDataPost,
-      headers: {}
+      body: formDataPost
     })
       .then(response => response.json())
       .then(data => {
-        console.log("data", data);
         if (data.signIn) {
-          localStorage.setItem("userData", JSON.stringify(data));
+          history.push("/login");
         }
       });
   };

@@ -8,7 +8,6 @@
     session_start();
 
     include "db_conn.php";
-
     if(!isset($_SESSION['request_origin']))
         $_SESSION['request_origin'] = 'http://localhost:3000';
 
