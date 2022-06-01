@@ -49,10 +49,17 @@ const RegisterTemplate = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.signIn) {
+        if (data) {
           history.push("/login");
         }
       });
+  };
+
+  const resetState = registerData => {
+    registerData.name = "";
+    registerData.surname = "";
+    registerData.password = "";
+    registerData.confirmPassword = "";
   };
 
   return (
@@ -76,10 +83,7 @@ const RegisterTemplate = () => {
             validationSchema={yupSchema}
             onSubmit={registerData => {
               registerUser(registerData);
-              registerData.name = "";
-              registerData.surname = "";
-              registerData.password = "";
-              registerData.confirmPassword = "";
+              resetState(registerData);
             }}
           >
             <Form className={form}>
