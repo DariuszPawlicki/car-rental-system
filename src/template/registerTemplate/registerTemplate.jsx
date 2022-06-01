@@ -47,8 +47,7 @@ const RegisterTemplate = () => {
       credentials: "include",
       body: formDataPost,
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
+        "Content-Type": "application/json"
       }
     })
       .then(response => response.json())
