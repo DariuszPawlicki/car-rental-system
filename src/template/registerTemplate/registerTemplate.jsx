@@ -46,9 +46,6 @@ const RegisterTemplate = () => {
       method: "POST",
       credentials: "include",
       body: formDataPost,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
     })
       .then(response => response.json())
       .then(data => {
