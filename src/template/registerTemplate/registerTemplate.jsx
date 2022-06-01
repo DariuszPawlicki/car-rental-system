@@ -45,7 +45,11 @@ const RegisterTemplate = () => {
     await fetch(`${API_URL}register.php`, {
       method: "POST",
       credentials: "include",
-      body: formDataPost
+      body: formDataPost,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
     })
       .then(response => response.json())
       .then(data => {
