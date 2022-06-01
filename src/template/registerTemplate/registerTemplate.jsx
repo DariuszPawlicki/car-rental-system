@@ -49,10 +49,7 @@ const RegisterTemplate = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log("data", data);
-        if (data) {
-          history.push("/login");
-        }
+        history.push("/login");
       });
   };
 
