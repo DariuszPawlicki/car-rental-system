@@ -47,8 +47,9 @@ const RegisterTemplate = () => {
       credentials: "include",
       body: formDataPost,
     })
-      .then(response => {response.json(); console.log(response);})
+      .then(response => response.json())
       .then(data => {
+        console.log(data)
         history.push("/login");
       });
   };
